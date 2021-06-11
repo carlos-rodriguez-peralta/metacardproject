@@ -1,0 +1,17 @@
+# STM32 Nucleo-64 development board with STM32L072CZT7 MCU
+
+# Copyright (c) 2021 Carlos Rodriguez Peralta <carlos.rodriguez@metadata.es>
+# SPDX-License-Identifier: Apache-2.0
+
+if BOARD_METACARD
+
+config BOARD
+	default "metacard"
+
+config SPI_STM32_INTERRUPT
+	default y
+	depends on SPI
+
+	
+
+endif # BOARD_METACARD

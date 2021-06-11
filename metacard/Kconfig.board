@@ -1,0 +1,9 @@
+# STM32 Nucleo-64 development board with STM32L072CZT7 MCU configuration
+
+# Copyright (c) 2021 Carlos Rodriguez Peralta <carlos.rodriguez@metadata.es>
+# SPDX-License-Identifier: Apache-2.0
+
+config BOARD_METACARD
+	bool "Metacard Board"
+	select HAS_DTS_GPIO
+	depends on SOC_STM32L072XX

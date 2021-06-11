@@ -1,0 +1,102 @@
+
+/*
+ * Copyright (c) 2021 Carlos Rodriguez Peralta <carlos.rodriguez@metadata.es>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/dts-v1/;
+#include <st/l0/stm32l072Xz.dtsi>
+#include <st/l0/stm32l072c(b-z)tx-pinctrl.dtsi>
+#include "arduino_r3_connector.dtsi"
+
+/ {
+	model = "MetadataSL Metacard-Persona";
+	compatible = "METADATASL, metacard";
+
+	chosen {
+		zephyr,console = &usart2;
+		zephyr,shell-uart = &usart2;
+		zephyr,sram = &sram0;
+		zephyr,flash = &flash0;
+	};
+
+	leds {
+		compatible = "gpio-leds";
+		green_led_2: led_2 {
+			gpios = <&gpiob 0 GPIO_ACTIVE_HIGH>;
+			label = "LG";
+		};
+		red_led_1: led_1{
+			gpios = <&gpioa 6 GPIO_ACTIVE_HIGH>;
+			label = "LR";
+		};
+		blue_led_3: led_3{
+			gpios = <&gpiob 1 GPIO_ACTIVE_HIGH>;
+			label = "LB";
+		};
+	};
+
+	gpio_keys {
+		compatible = "gpio-keys";
+		user_button: button {
+			label = "BUTTON";
+			gpios = <&gpiob 15 GPIO_ACTIVE_LOW>;
+		};
+	};
+
+	aliases {
+		led0 = &green_led_2;
+		led1 = &red_led_1;
+		led3 = &blue_led_3;
+		sw0 = &user_button;
+	};
+};
+
+
+&usart1 {  /* GPS */
+	pinctrl-0 = <&usart1_tx_pb6 &usart1_rx_pb7>;
+	current-speed = <9600>;
+	status = "okay";
+};
+
+&usart2 { /* FPS  */
+	pinctrl-0 = <&usart2_tx_pa2 &usart2_rx_pa3>;
+	current-speed = <57600>;
+	status = "okay";
+};
+&usart4 { //WiFi  
+	pinctrl-0 = <&usart4_tx_pa0 &usart4_rx_pa1>;
+	current-speed = <115200>;
+	status = "okay";
+};
+/*&usart5 { // NBIOT  
+	pinctrl-0 = <&usart5_tx_pb3 &usart5_rx_pb4>;
+	current-speed = <9600>;
+	status = "okay";
+};*/
+
+&i2c1 {
+	pinctrl-0 = <&i2c1_scl_pb8 &i2c1_sda_pb9>;
+	status = "okay";
+	clock-frequency = <I2C_BITRATE_FAST>;
+};
+
+&spi1 {
+	pinctrl-0 = <&spi1_sck_pa5 &spi1_miso_pa6 &spi1_mosi_pa7>;
+	status = "okay";
+};
+
+&iwdg {
+	status = "okay";
+};
+
+&adc1 {
+	pinctrl-0 = <&adc_in0_pa0>;
+	status = "okay";
+};
+
+&dac1 {
+	status = "okay";
+	pinctrl-0 = <&dac_out1_pa4>;
+};
